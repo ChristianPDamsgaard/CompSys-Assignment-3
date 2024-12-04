@@ -50,7 +50,7 @@ class Accelerator extends Module {
         dataReg := 0.U(32.W)
         stateReg := write
       }
-      when((x > 0.U && x < 19.U) && (y > 0.U && y < 19.U)) {
+      when((x > 0.U) && (y > 0.U)) {
         trueAddressReg := addressReg //How memory works forces us to set a true Address Register
         addressReg := addressReg - 1.U(16.W) // Prepping the left neighbor
         io.address := addressReg - 1.U(16.W)
@@ -125,7 +125,7 @@ class Accelerator extends Module {
     is(write) {
       io.address := trueAddressReg + 400.U(16.W)
       io.writeEnable := true.B
-      when(addressReg === 399.U(16.W)){
+      when(trueAddressReg === 399.U(16.W)){
         stateReg := done
       }.otherwise{
         stateReg := inc
